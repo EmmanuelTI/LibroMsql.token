@@ -1,0 +1,107 @@
+############################
+# .NET Core / .NET General #
+############################
+
+# Build results
+bin/
+obj/
+out/
+TestResults/
+*.log
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Rider & VS Code
+.idea/
+.vscode/
+
+# Visual Studio files
+.vs/
+
+# IIS Express
+*.vspscc
+*.vssscc
+.vsconfig
+
+# Dotnet user secrets
+secrets.json
+
+# Important: Ignore appsettings with secrets/configuration!
+appsettings.json
+appsettings.*.json
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Dotnet artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# StyleCop
+StyleCopReport.xml
+
+# Entity Framework
+Migrations/
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+
+# dotenv / config
+.env
+.env.*
+
+# Database
+*.mdf
+*.ldf
+*.dbmdl
+*.bak
+
+# Publish
+wwwroot/dist/
+publish/
+*.Publish.xml
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+*.testresults
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# SonarQube
+.sonar/
+
+# Logs
+*.log
+logs/
+
+# JetBrains Rider
+.idea/
+
+# Web
+node_modules/
+bower_components/
+
+# Frontend build outputs
+build/
+dist/
