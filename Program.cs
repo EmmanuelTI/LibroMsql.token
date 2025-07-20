@@ -6,9 +6,18 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Servicios necesarios
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+    {
+        opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.CustomSchemaIds(type => type.FullName.Replace("+", "."));
+});
+
 
 builder.Services.AddDbContext<ContextoLibreria>(options =>
     options.UseMySQL(

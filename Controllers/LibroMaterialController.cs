@@ -38,5 +38,25 @@ namespace UTTT.Micro.Libro.Controllers
             });
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> Editar(Guid id, [FromBody] Editar.Ejecuta data)
+        {
+            if (id != data.LibreriaMaterialId)
+            {
+                return BadRequest("El ID en la URL no coincide con el ID del libro.");
+            }
+
+            return await _mediator.Send(data);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Eliminar(Guid id)
+        {
+            return await _mediator.Send(new Eliminar.Ejecuta { LibreriaMaterialId = id });
+        }
+
+
+
+
     }
 }
