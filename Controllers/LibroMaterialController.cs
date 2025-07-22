@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Uttt.Micro.Libro.Aplicacion;
 using UTTT.Micro.Libro.Applicaciones;
@@ -7,6 +8,7 @@ namespace UTTT.Micro.Libro.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LibroMaterialController : ControllerBase
     {
         private readonly IMediator _mediator;

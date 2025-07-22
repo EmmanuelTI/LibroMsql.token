@@ -3,7 +3,7 @@ using System.Data;
 
 namespace UTTT.Micro.Libro.Models
 {
-    public class LibreriaMaterial
+    public class LibreriasMateriales
     {
         [Key]
         public Guid? LibreriaMaterialId { get; set; }

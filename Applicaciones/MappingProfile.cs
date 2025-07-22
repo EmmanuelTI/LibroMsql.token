@@ -7,7 +7,7 @@ namespace UTTT.Micro.Libro.Applicaciones
     {
         public MappingProfile()
         {
-            CreateMap<LibreriaMaterial, LibroMaterialDto>();
+            CreateMap<LibreriasMateriales, LibroMaterialDto>();
         }
 
     }

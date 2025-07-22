@@ -34,13 +34,13 @@ namespace Uttt.Micro.Libro.Aplicacion
 
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var libro = new LibreriaMaterial
+                var libro = new LibreriasMateriales
                 {
                     Titulo = request.Titulo,
                     FechaPublicacion = request.FechaPublicacion,
                     AutorLibro = request.AutorLibro
                 };
-                _contexto.LibreriasMaterial.Add(libro);
+                _contexto.LibreriasMateriales.Add(libro);
                 var valor = await _contexto.SaveChangesAsync();
                 if (valor > 0)
                 {

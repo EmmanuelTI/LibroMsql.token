@@ -28,12 +28,12 @@ namespace UTTT.Micro.Libro.Applicaciones
 
             public async Task<LibroMaterialDto> Handle(LibroUnico request, CancellationToken cancellationToken)
             {
-                var libro = await _contexto.LibreriasMaterial.Where(x => x.LibreriaMaterialId == request.LibroId).FirstOrDefaultAsync();
+                var libro = await _contexto.LibreriasMateriales.Where(x => x.LibreriaMaterialId == request.LibroId).FirstOrDefaultAsync();
                 if (libro == null)
                 {
                     throw new Exception("No se Encontro el libro");
                 }
-                var libroDto = _mapper.Map<LibreriaMaterial, LibroMaterialDto>(libro);
+                var libroDto = _mapper.Map<LibreriasMateriales, LibroMaterialDto>(libro);
                 return libroDto;
             }
 

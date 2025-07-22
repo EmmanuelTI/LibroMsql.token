@@ -10,7 +10,7 @@ namespace UTTT.Micro.Libro.Persistencia
 
         }
 
-        public DbSet<LibreriaMaterial>LibreriasMaterial { get ; set; }
+        public DbSet<LibreriasMateriales> LibreriasMateriales { get ; set; }
 
     }
 }

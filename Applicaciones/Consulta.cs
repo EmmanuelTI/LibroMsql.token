@@ -29,8 +29,8 @@ namespace UTTT.Micro.Libro.Applicaciones
 
             public async Task<List<LibroMaterialDto>> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var libros = await _contexto.LibreriasMaterial.ToListAsync();
-                var librosDto = _mapper.Map<List<LibreriaMaterial>, List<LibroMaterialDto>>(libros);
+                var libros = await _contexto.LibreriasMateriales.ToListAsync();
+                var librosDto = _mapper.Map<List<LibreriasMateriales>, List<LibroMaterialDto>>(libros);
                 return librosDto;
             }
         }

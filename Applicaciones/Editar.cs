@@ -38,7 +38,7 @@ public class Editar
 
         public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
         {
-            var libro = await _contexto.LibreriasMaterial
+            var libro = await _contexto.LibreriasMateriales
                 .FirstOrDefaultAsync(x => x.LibreriaMaterialId == request.LibreriaMaterialId, cancellationToken);
 
             if (libro == null)

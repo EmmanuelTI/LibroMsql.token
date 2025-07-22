@@ -36,8 +36,6 @@ ehthumbs.db
 secrets.json
 
 # Important: Ignore appsettings with secrets/configuration!
-appsettings.json
-appsettings.*.json
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt

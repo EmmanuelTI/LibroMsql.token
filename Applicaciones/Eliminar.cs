@@ -23,7 +23,7 @@ public class Eliminar
 
         public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
         {
-            var libro = await _contexto.LibreriasMaterial
+            var libro = await _contexto.LibreriasMateriales
                 .FirstOrDefaultAsync(x => x.LibreriaMaterialId == request.LibreriaMaterialId, cancellationToken);
 
             if (libro == null)
@@ -31,7 +31,7 @@ public class Eliminar
                 throw new Exception("No se encontró el libro con ese ID");
             }
 
-            _contexto.LibreriasMaterial.Remove(libro);
+            _contexto.LibreriasMateriales.Remove(libro);
 
             var resultado = await _contexto.SaveChangesAsync(cancellationToken);
 
