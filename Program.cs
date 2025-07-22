@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,14 +7,18 @@ using UTTT.Micro.Libro.Persistencia;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Config CORS, Swagger, Controllers, etc.
-builder.Services.AddControllers();
+// Servicios
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+    {
+        opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mi API Autor", Version = "v1" });
 
-    // Configuración para que Swagger UI permita enviar el token JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "Ingrese 'Bearer' seguido del token JWT. Ejemplo: 'Bearer abcde12345'",
@@ -30,53 +33,35 @@ builder.Services.AddSwaggerGen(c =>
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
-});
-builder.Services.AddControllers()
-    .AddJsonOptions(opt =>
-    {
-        opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
     c.CustomSchemaIds(type => type.FullName.Replace("+", "."));
 });
 
-
 builder.Services.AddDbContext<ContextoLibreria>(options =>
-    options.UseMySQL(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("PermitirTodo", builder =>
+    options.AddPolicy("PermitirTodo", policy =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
+        // Mejor usar orígenes específicos en producción por seguridad
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
-builder.Services.AddApplicationInsightsTelemetry();
 
 var issuer = "miapp-login";
 var audience = "miapp-autor";
-var secretKey = "xR4pZ+YJvLvk0b2Pn8qTLr5E3W1KyX4VJ8t7yA0ZuB0=";  
+var secretKey = "xR4pZ+YJvLvk0b2Pn8qTLr5E3W1KyX4VJ8t7yA0ZuB0=";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -90,7 +75,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = issuer,
             ValidAudience = audience,
             IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(secretKey))
-
         };
 
         options.Events = new JwtBearerEvents
@@ -108,19 +92,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 var app = builder.Build();
 
 // Middleware
-
 app.UseSwagger();
 app.UseSwaggerUI();
+
 app.UseHttpsRedirection();
 
-// ✅ Aplicar política de CORS antes de UseAuthorization
-app.UseCors("PermitirTodo");
-app.UseSwagger();
-app.UseSwaggerUI();
+// **IMPORTANTE: el orden de middleware es crucial**
+app.UseCors("PermitirTodo");  // Debe ir antes de UseAuthorization
+app.UseAuthentication();      // Si usas autenticación, va antes de autorización
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
