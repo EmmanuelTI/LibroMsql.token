@@ -62,7 +62,7 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-// ✅ Configurar CORS para permitir solicitudes desde React
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", builder =>
@@ -112,12 +112,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 // Middleware
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 // ✅ Aplicar política de CORS antes de UseAuthorization
